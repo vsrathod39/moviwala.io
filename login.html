@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoviWala_Login - fw12_132</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    body{
+        background-color: black;
+    }
+    /* Nav */
+    nav{
+            width: 100%;
+            display: flex;
+            gap: 3%;
+            height: 65px;
+            background-color: black;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #logo{
+            font-size: 28px;
+        }
+        #navMenu{
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+        }
+        .navDiv{
+            cursor: pointer;
+            margin: auto 3% auto 3%;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+    /* Login */
+    #signin{
+        width: 50%;
+        margin:5% auto;
+        padding:10px;
+        text-align: center;
+        color: white;
+        height: 350px;
+        justify-content: center;
+        background-color: rgb(49, 45, 45);
+        border-radius: 8px;
+    }
+    form{
+        width: 60%;
+        margin: 10px auto;
+    }
+    input{
+        display: block;
+        text-align: center;
+        font-size: 18px; 
+        padding: 10px;
+        width: 90%;
+        margin: 10px auto;
+    }
+    #login_form{
+        margin: 10% auto;
+    }
+    #submit_btn{
+        background-color: orange;
+        width: 60%;
+        font-weight: bold;
+    }
+    #submit_btn:hover{
+        background-color: tomato;
+        color: white;
+    }
+    /* footer */
+        footer{
+            width: 98%;
+            padding: 20px 0;
+            background-color: black;
+            color: white;
+        }
+        #footBox{
+            display: flex;
+            gap: 22px;
+            justify-content: space-around;
+        }
+        #cpright{
+            margin: 20px auto;
+            width: 55%;
+        }
+</style>
+<body>
+    <!-- navBar -->
+    <nav>
+        <div id="logo" class="navDiv"><a href="Home.html">MoviWala</a></div>
+        <div id="navMenu">
+            <div class="navDiv"><a href="Home.html">Home</a></div>
+            <div class="navDiv" id="user_name"><a href="login.html">Login</a></div>
+            <div class="navDiv" id="logout"><a href="signup.html">Signup</a></div>
+        </div>
+    </nav>
+    <!-- signin form -->
+    <div id="signin">
+        <div id="login_form">
+            <h3>LOGIN</h3>
+            <form onsubmit="return login()" id="login_info">
+                <input type="text" id="email" placeholder="Enter email">
+                <input type="text" id="password" placeholder="Enater password">
+                <input type="Submit" id="submit_btn">
+            </form>
+        </div>
+    </div>
+    <!-- footer -->
+    <div id="hrLine"></div>
+    <footer>
+        <div id="footBox">
+            <div>
+                <h1>MoviWala</h1>
+                <h4>MoviWala - Originals, Movies, Shows & more</h4>
+            </div>
+            <div>
+                <h4>Must watch Movies</h4>
+                <a href="#"><p>Drishyam</p></a>
+                <a href="#"><p>Taking Earth</p></a>
+                <a href="#"><p>Khaleja</p></a>
+                <a href="#"><p>Raktbhoomi</p></a>
+            </div>
+            <div>
+                <h4>Genres</h4>
+                <a href="#"><p>Kids</p></a>
+                <a href="#"><p>Action Movies</p></a>
+                <a href="#"><p>Drama Movies</p></a>
+                <a href="#"><p>Romantic Movies</p></a>
+            </div>
+            <div>
+                <h4>Learn More</h4>
+                <a href="#"><p>About Us</p></a>
+                <a href="#"><p>Contact Us</p></a>
+                <a href="#"><p>Privacy Policy</p></a>
+            </div>
+        </div>
+        <div id="cpright">
+            <p>© Copyright 2021 MoviWala Media and Broadcasting Pvt Ltd. All rights reserved.</p>
+        </div>   
+    </footer>
+</body>
+</html>
+
+<script>
+    // login status - active user
+    if(localStorage.getItem("login_status") != null && JSON.parse(localStorage.getItem("login_status")).length > 0){
+        let active = document.getElementById("user_name");
+        active.innerHTML = null;
+
+        let p = document.createElement("p");
+        p.textContent ="Welcome - " + JSON.parse(localStorage.getItem("login_status"))[0];
+        active.append(p);
+
+        let log = document.getElementById("logout");
+        log.innerHTML = null;
+
+        let logout_btn = document.createElement("button");
+        logout_btn.textContent = "Logout";
+        logout_btn.setAttribute("id", "logout_btn")
+        logout_btn.onclick = function(){
+            logout();
+        }
+
+        log.append(logout_btn);
+    }
+
+    // LogOut
+    function  logout(){
+        console.log("hello");
+        let act_user = JSON.parse(localStorage.getItem("login_status"));
+        act_user.pop();
+        localStorage.setItem("login_status", JSON.stringify(act_user));
+
+        let active = document.getElementById("user_name");
+        active.innerHTML = null;
+
+        let a = document.createElement("a");
+        a.textContent = "Login";
+        a.setAttribute('href','login.html')
+        active.append(a);
+
+        let log = document.getElementById("logout");
+        log.innerHTML = null;
+
+        let a2 = document.createElement("a");
+        a2.setAttribute('href',"/signup.html")
+        a2.textContent = "signup";
+        log.append(a2);
+    }
+
+    // login function
+function login(){
+    let login_info = document.getElementById("login_info");
+    let email = login_info.email.value;
+    let password = login_info.password.value;
+
+    if(localStorage.getItem("user") === null){
+        alert("user dosen't exist, please signup")
+        location.href = 'signup.html';
+    }
+
+    let user_detl = JSON.parse(localStorage.getItem("user"));
+    let flag = true;
+
+    for(let i = 0; i < user_detl.length; i++){
+        if(user_detl[i].email == email && user_detl[i].password == password){
+            flag = false;
+            alert("login success");
+            
+            localStorage.setItem("login_status", JSON.stringify([user_detl[i].name]));
+            location.href = 'Home.html';
+        }
+    }
+    if(flag)
+        alert("invalid Credentials");
+
+    return false;
+}
+</script>

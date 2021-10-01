@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - fw12_132</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        nav{
+            width: 100%;
+            display: flex;
+            height: 65px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: black;
+            position: fixed;
+        }
+        #logo{
+            font-size: 28px;
+        }
+        #navMenu{
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            cursor: pointer;
+        }
+        #logout_btn{
+            background-color: black;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .navDiv{
+            cursor: pointer;
+            margin: auto 3% auto 3%;
+        }
+        a{
+            text-decoration: none;
+        }
+        #hrLine{
+            border-top: 3px solid grey;
+            width: 100%;
+        }
+        /* slide_Show */
+        #slideShow{
+            width: 100%;
+            height: 300px;
+            margin: auto;
+        }
+        #slideShow img{
+            width: 100%;
+            height: 100%;
+        }
+        /* main body */
+        #moviesList{
+            display: grid;
+            grid-template-columns: 27% 27% 27%;
+            justify-content: space-around;
+            gap: 22px;
+            background-color: black;
+            padding-bottom: 22px;
+        }
+        #moviesList img{
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+        }
+        #moviesList button{
+            background-color: green;
+            width: 50%;
+            margin: auto;
+            padding: 8px;
+            cursor: pointer;
+        }
+        .moviBox{
+            border: 1px solid green;
+            border-radius: 8px;
+            text-align: center;
+            background-color: rgb(53, 49, 49);
+        }
+        .moviName{
+            font-size: 18px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        #heading{
+            background: black;
+            padding: 2% 3%;
+        }
+        #heading p{
+            margin: 10px 0;
+        }
+        .sort_btn{
+            padding: 5px 10px;
+            background-color: rgb(58, 53, 53)
+        }
+        .sort_btn:hover{
+            background-color: grey;
+        }
+        /* footer */
+        footer{
+            width: 100%;
+            padding: 20px 0;
+            background-color: black;
+        }
+        #footBox{
+            display: flex;
+            gap: 22px;
+            justify-content: space-around;
+        }
+        #cpright{
+            margin: 20px auto;
+            width: 55%;
+        }
+    </style>
+</head>
+<body>
+    <!-- navBar -->
+    <nav>
+        <div id="logo" class="navDiv"><a href="Home.html">MoviWala</a></div>
+        <div id="navMenu">
+            <!-- <div class="navDiv" id="user_name"></div> -->
+            <div class="navDiv"><a href="Home.html">Home</a></div>
+            <div class="navDiv" id="user_name"><a href="login.html">Login</a></div>
+            <div class="navDiv" id="logout"><a href="signup.html">Signup</a></div>
+        </div>
+    </nav>
+    <div id="hrLine"></div>
+    <!-- slide_Show -->
+    <div id="slideShow">
+
+    </div>
+    <div id="hrLine"></div>
+    <!-- main body -->
+    <div id="heading">
+        <h3>Top 12 Movies</h3>
+        <p>Sort by rating:</p>
+        <button class="sort_btn" id="high_low">High-Low</button>
+        <button class="sort_btn" id="low_high">Low-High</button>
+    </div>
+    <div id="moviesList">
+
+    </div>
+    <div id="hrLine"></div>
+    <!-- footer -->
+    <footer>
+        <div id="footBox">
+            <div>
+                <h1>MoviWala</h1>
+                <h4>MoviWala - Originals, Movies, Shows & more</h4>
+            </div>
+            <div>
+                <h4>Must watch Movies</h4>
+                <a href="#"><p>Drishyam</p></a>
+                <a href="#"><p>Taking Earth</p></a>
+                <a href="#"><p>Khaleja</p></a>
+                <a href="#"><p>Raktbhoomi</p></a>
+            </div>
+            <div>
+                <h4>Genres</h4>
+                <a href="#"><p>Kids</p></a>
+                <a href="#"><p>Action Movies</p></a>
+                <a href="#"><p>Drama Movies</p></a>
+                <a href="#"><p>Romantic Movies</p></a>
+            </div>
+            <div>
+                <h4>Learn More</h4>
+                <a href="#"><p>About Us</p></a>
+                <a href="#"><p>Contact Us</p></a>
+                <a href="#"><p>Privacy Policy</p></a>
+            </div>
+        </div>
+        <div id="cpright">
+            <p>© Copyright 2021 MoviWala Media and Broadcasting Pvt Ltd. All rights reserved.</p>
+        </div>   
+    </footer>
+</body>
+</html>
+
+<script>
+    // login status - active user
+    if(localStorage.getItem("login_status") != null && JSON.parse(localStorage.getItem("login_status")).length > 0){
+        let active = document.getElementById("user_name");
+        active.innerHTML = null;
+
+        let p = document.createElement("p");
+        p.textContent ="Welcome - " + JSON.parse(localStorage.getItem("login_status"))[0];
+        active.append(p);
+
+        let log = document.getElementById("logout");
+        log.innerHTML = null;
+
+        let logout_btn = document.createElement("button");
+        logout_btn.textContent = "Logout";
+        logout_btn.setAttribute("id", "logout_btn")
+        logout_btn.onclick = function(){
+            logout();
+        }
+
+        log.append(logout_btn);
+    }
+
+    // LogOut
+    function  logout(){
+        console.log("hello");
+        let act_user = JSON.parse(localStorage.getItem("login_status"));
+        act_user.pop();
+        localStorage.setItem("login_status", JSON.stringify(act_user));
+
+        let active = document.getElementById("user_name");
+        active.innerHTML = null;
+
+        let a = document.createElement("a");
+        a.textContent = "Login";
+        a.setAttribute('href','login.html')
+        active.append(a);
+
+        let log = document.getElementById("logout");
+        log.innerHTML = null;
+
+        let a2 = document.createElement("a");
+        a2.setAttribute('href',"/signup.html")
+        a2.textContent = "signup";
+        log.append(a2);
+    }
+
+// slid_show function
+let slideShow = document.getElementById("slideShow");
+function slid_show(){
+
+    let images = ["https://snagfilms-a.akamaihd.net/38c1e2aa-64c1-41c3-8b5e-674247d490c8/images/2021/09/9/1631206574380_1mahaganeshaonline3840x1080_32x9Images.jpg?impolicy=resize&w=1280&h=360", "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/4051/1054051-h-aad5a3d35219", "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/1567/1051567-h-f4a0f23b9a6d", "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/5762/1045762-h-3317e62b75fc", "https://img1.hotstarext.com/image/upload/f_auto,t_web_m_1x/sources/r1/cms/prod/9833/1059833-h-489506b775f9"];
+
+    let count = 0;
+
+    let img = document.createElement("img");
+        img.src = images[count];
+        slideShow.append(img);
+        
+    setInterval(function(){
+        slideShow.innerHTML = null;
+        if(count == images.length){
+            count = 0;
+        }
+
+        let img = document.createElement("img");
+        img.src = images[count];
+        slideShow.append(img);
+        count++;
+    }, 3000);
+
+}
+
+slid_show();
+
+// main body products
+let moviesData = [
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/drishyam-et00031160-23-02-2021-06-53-15.jpg",
+            name: "Drishyam",
+            rating: "8.6",
+            date: "2018",
+            language: "Hindi"
+        },
+        {
+            img: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00312484-ehedpyzcmm-portrait.jpg",
+            name: "The Balkan Line",
+            rating: "8.3",
+            date: "2020",
+            language: "English"
+        },
+        {
+            img: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00137316-jlvpmlrpyw-portrait.jpg",
+            name: "The Nest",
+            rating: "6.2",
+            date: "2021",
+            language: "English"
+        },
+        {
+            img: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00314958-gjyspamrdm-portrait.jpg",
+            name: "Nigh of The Animated Dead",
+            rating: "8.8",
+            date: "2021",
+            language: "English, Hindi"
+        },
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/taking-earth-et00312662-08-07-2021-04-41-50.jpg",
+            name: "Taking Earth",
+            rating: "9.2",
+            date: "2016",
+            language: "English, Hindi"
+        },
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/khaleja-et00005145-28-06-2021-07-35-21.jpg",
+            name: "Khaleja",
+            rating: "8.1",
+            date: "2015",
+            language: "Telgu"
+        },
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/okkadu-et00065514-28-06-2021-02-31-41.jpg",
+            name: "Okkadu",
+            rating: "7.9",
+            date: "2017",
+            language: "Telgu"
+        },
+        {
+            img: "https://akamaividz2.zee5.com/image/upload/w_382,h_215,c_scale,f_webp,q_auto:eco/resources/0-0-movie_1542232596/list/ghayalkhiladi740x416.jpg",
+            name: "Ghayal Khiladi",
+            rating: "6.7",
+            date: "2017",
+            language: "Bhojpuri"
+        },
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/bbuddah-hoga-terra-baap-et00007098-05-05-2021-12-57-33.jpg",
+            name: "Bbuddah... Hoga Terra Baap",
+            rating: "9.4",
+            date: "2016",
+            language: "Hindi"
+        },
+        {
+            img: "https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/manto-et00057539-15-04-2021-11-43-31.jpg",
+            name: "Manto",
+            rating: "6.2",
+            date: "2012",
+            language: "Hindi"
+        },
+        {
+            img: "https://akamaividz2.zee5.com/image/upload/w_382,h_215,c_scale,f_webp,q_auto:eco/resources/0-0-rakhtbhoomi/list/RAKHTBHOOMi740x4166650623af52745399bc26c1a9f93bab5.jpg",
+            name: "Raktbhoomi",
+            rating: "7.2",
+            date: "2019",
+            language: "Bhpjpuri"
+        },
+        {
+            img: "https://akamaividz2.zee5.com/image/upload/w_195,h_293,c_scale,f_webp,q_auto:eco/resources/0-6-2370/portrait/1920x7701239272006.jpg",
+            name: "State of Siege: 26/11",
+            rating: "8.2",
+            date: "2021",
+            language: "Hindi"
+        }
+    ];
+
+function showMoviesList(data){
+    let parrent = document.getElementById("moviesList");
+    parrent.innerHTML = "";
+
+    data.forEach(function(m){
+
+        let div = document.createElement("div");
+        div.setAttribute("class", "moviBox")
+
+        let img = document.createElement("img");
+        img.src = m.img;
+
+        let rating = document.createElement("p");
+        rating.textContent = "imbd rating: " + m.rating;
+
+        let language = document.createElement("p");
+        language.textContent = m.language;
+
+        let year = document.createElement("p");
+        year.textContent = m.date;
+
+        let name = document.createElement("p");
+        name.setAttribute("class", "moviName");
+        name.textContent = m.name;
+
+        let playNow_btn = document.createElement("button");
+        playNow_btn.textContent = "Play Now";
+
+        div.append(img, rating, language, year, name, playNow_btn);
+
+        parrent.append(div);
+    })
+}
+
+showMoviesList(moviesData);
+
+// sorting
+let highLow = document.getElementById("high_low");
+highLow.addEventListener("click", sortHL);
+
+let lowHigh = document.getElementById("low_high");
+lowHigh.addEventListener("click", sortLH);
+
+function sortHL(){
+    let arr = moviesData.sort(function(a, b){
+        return b.rating - a.rating;
+    });
+    console.log(arr);
+    showMoviesList(arr);
+}
+
+function sortLH(){
+    let arr = moviesData.sort(function(a, b){
+        return a.rating - b.rating;
+    });
+    console.log(arr);
+    showMoviesList(arr);
+}
+</script>
