@@ -32,14 +32,14 @@ function  logout(){
 
     let a = document.createElement("a");
     a.textContent = "Login";
-    a.setAttribute('href','./login.html')
+    a.setAttribute('href','/login.html')
     active.append(a);
 
     let log = document.getElementById("logout");
     log.innerHTML = null;
 
     let a2 = document.createElement("a");
-    a2.setAttribute('href',"./signup.html")
+    a2.setAttribute('href',"/signup.html")
     a2.textContent = "signup";
     log.append(a2);
 }
@@ -52,7 +52,7 @@ let password = login_info.password.value;
 
 if(localStorage.getItem("user") === null){
     alert("user dosen't exist, please signup")
-    location.href = './signup.html';
+    location.href = '/signup.html';
 }
 
 let user_detl = JSON.parse(localStorage.getItem("user"));
@@ -64,7 +64,7 @@ for(let i = 0; i < user_detl.length; i++){
         alert("login success");
         
         localStorage.setItem("login_status", JSON.stringify([user_detl[i].name]));
-        location.href = 'index.html';
+        location.href = '/index.html';
     }
 }
 if(flag)
