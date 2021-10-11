@@ -109,6 +109,7 @@ a{
     text-align: center;
     background-color: rgb(53, 49, 49);
     cursor: pointer;
+    height: 510px;
 }
 .moviName{
     font-size: 18px;
@@ -143,4 +144,12 @@ footer{
 #cpright{
     margin: 20px auto;
     width: 55%;
+}
+
+/* ------------------- */
+
+#recomTag{
+    color: rgb(8, 56, 8);
+    background-color: rgb(185, 122, 111);
+    border-radius: 8px 8px 0 0;
 }

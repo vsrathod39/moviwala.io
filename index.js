@@ -4,6 +4,7 @@ async function moviesSearch(){
     let res = await fetch(`https://api.themoviedb.org/3/search/movie?&api_key=1229e943aec051105219f4ea7a80c817${"&query="}${title}`);
     let apiData = await res.json();
     console.log(apiData);
+    moviesData = apiData.results;
     if(apiData.results.length > 0)
         showMoviesList(apiData.results);
     else
@@ -76,7 +77,15 @@ function showMoviesList(data){
         let playNow_btn = document.createElement("button");
         playNow_btn.textContent = "Play Now";
 
-        div.append(img, rating, language, year, name, playNow_btn);
+        let recom = document.createElement("p");
+        recom.setAttribute("id", "recomTag");
+        recom.textContent = "Recomded - Must to watch";
+
+        if(Number(m.vote_average) > 8.5){
+            div.append(recom, img, rating, language, year, name, playNow_btn);
+        }
+        else
+            div.append(img, rating, language, year, name, playNow_btn);
 
         parrent.append(div);
     })
