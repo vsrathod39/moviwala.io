@@ -7,8 +7,18 @@ async function moviesSearch(){
     moviesData = apiData.results;
     if(apiData.results.length > 0)
         showMoviesList(apiData.results);
-    else
-        alert("no resut found, please check title")
+    else{
+        let parrent = document.getElementById("moviesList");
+        parrent.innerHTML = null;
+        parrent.style.display = "flex";
+        let div = document.createElement("div");
+        div.setAttribute("id", "errorBox");
+        let img = document.createElement("img");
+        img.src = "./gif/200w.webp";
+        div.append(img);
+        parrent.append(div);
+        alert("no resut found, please check title");
+    }
 }
 
 let moviesData;
@@ -52,6 +62,7 @@ function slid_show(images){
 function showMoviesList(data){
     let parrent = document.getElementById("moviesList");
     parrent.innerHTML = "";
+    parrent.style.display = "grid";
 
     data.forEach(function(m){
 
