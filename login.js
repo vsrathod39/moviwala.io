@@ -64,7 +64,7 @@ for(let i = 0; i < user_detl.length; i++){
         alert("login success");
         
         localStorage.setItem("login_status", JSON.stringify([user_detl[i].name]));
-        location.href = './index.html';
+        location.href = 'index.html';
     }
 }
 if(flag)
