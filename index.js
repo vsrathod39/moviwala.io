@@ -68,7 +68,7 @@ function showMoviesList(data){
         language.textContent = "Language: " + m.original_language;
 
         let year = document.createElement("p");
-        year.textContent = m.date;
+        year.textContent = m.release_date;
 
         let name = document.createElement("p");
         name.setAttribute("class", "moviName");
