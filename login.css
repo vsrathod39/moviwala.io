@@ -1,0 +1,87 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    background-color: black;
+}
+/* Nav */
+nav{
+        width: 100%;
+        display: flex;
+        gap: 3%;
+        height: 65px;
+        background-color: black;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    #logo{
+        font-size: 28px;
+    }
+    #navMenu{
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+    .navDiv{
+        cursor: pointer;
+        margin: auto 3% auto 3%;
+    }
+    a{
+        color: white;
+        text-decoration: none;
+    }
+/* Login */
+#signin{
+    width: 50%;
+    margin:5% auto;
+    padding:10px;
+    text-align: center;
+    color: white;
+    height: 350px;
+    justify-content: center;
+    background-color: rgb(49, 45, 45);
+    border-radius: 8px;
+}
+form{
+    width: 60%;
+    margin: 10px auto;
+}
+input{
+    display: block;
+    text-align: center;
+    font-size: 18px; 
+    padding: 10px;
+    width: 90%;
+    margin: 10px auto;
+}
+#login_form{
+    margin: 10% auto;
+}
+#submit_btn{
+    background-color: orange;
+    width: 60%;
+    font-weight: bold;
+}
+#submit_btn:hover{
+    background-color: tomato;
+    color: white;
+}
+/* footer */
+    footer{
+        width: 98%;
+        padding: 20px 0;
+        background-color: black;
+        color: white;
+    }
+    #footBox{
+        display: flex;
+        gap: 22px;
+        justify-content: space-around;
+    }
+    #cpright{
+        margin: 20px auto;
+        width: 55%;
+    }
