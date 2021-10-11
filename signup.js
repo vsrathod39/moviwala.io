@@ -31,14 +31,14 @@ function  logout(){
 
     let a = document.createElement("a");
     a.textContent = "Login";
-    a.setAttribute('href','login.html')
+    a.setAttribute('href','./login.html')
     active.append(a);
 
     let log = document.getElementById("logout");
     log.innerHTML = null;
 
     let a2 = document.createElement("a");
-    a2.setAttribute('href',"/signup.html")
+    a2.setAttribute('href',"./signup.html")
     a2.textContent = "signup";
     log.append(a2);
 }
@@ -80,7 +80,7 @@ function signUp(){
             localStorage.setItem("user", JSON.stringify( user_detl));
             alert("signup successfull, please login now");
         }
-        location.href = 'login.html';
+        location.href = './login.html';
     }
     
     signup_info.reset();
