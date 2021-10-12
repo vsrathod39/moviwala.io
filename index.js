@@ -30,6 +30,10 @@ async function moviesDataAPI(){
     slid_show(apiData.results);
     moviesData = apiData.results;
     console.log(apiData.results);
+    // Video API
+    // let r = await fetch(`https://api.themoviedb.org/3/movie/${apiData.result.id}/videos?api_key=1229e943aec051105219f4ea7a80c817&append_to_response=videos`);
+    // var dp = await r.json();
+    // console.log("Video: " , dp);
 }
 
 moviesDataAPI();
@@ -57,48 +61,73 @@ function slid_show(images){
     }, 3000);
 
 }
+// Video api link
+async function videoApi(id){
+    let r = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=1229e943aec051105219f4ea7a80c817&append_to_response=videos`);
+    var dp = await r.json();
+        // console.log("Video:", dp.results[0].key);
+    return (dp.results[0].key);
+        
+}
 
 // Body popular movies list
-function showMoviesList(data){
+async function showMoviesList(data){
     let parrent = document.getElementById("moviesList");
     parrent.innerHTML = "";
     parrent.style.display = "grid";
 
     data.forEach(function(m){
+        // Calling video api function
 
-        let div = document.createElement("div");
-        div.setAttribute("class", "moviBox")
+        videoApiID(m);
 
-        let img = document.createElement("img");
-        img.src = "https://image.tmdb.org/t/p/w500"+m.poster_path;
+        async function videoApiID(m){
+            let video_id= await videoApi(m.id);
 
-        let rating = document.createElement("p");
-        rating.textContent = "imbd rating: " + m.vote_average;
+            // console.log("Vid S",video_id)
 
-        let language = document.createElement("p");
-        language.textContent = "Language: " + m.original_language;
+            let youtubeLink = `https://www.youtube.com/watch?v=${video_id}`;
+            // console.log("link", youtubeLink)
 
-        let year = document.createElement("p");
-        year.textContent = m.release_date;
+            let div = document.createElement("div");
+            div.setAttribute("class", "moviBox")
 
-        let name = document.createElement("p");
-        name.setAttribute("class", "moviName");
-        name.textContent = m.title;
+            let img = document.createElement("img");
+            img.src = "https://image.tmdb.org/t/p/w500"+m.poster_path;
 
-        let playNow_btn = document.createElement("button");
-        playNow_btn.textContent = "Play Now";
+            let rating = document.createElement("p");
+            rating.textContent = "imbd rating: " + m.vote_average;
 
-        let recom = document.createElement("p");
-        recom.setAttribute("id", "recomTag");
-        recom.textContent = "Recomded - Must to watch";
+            let language = document.createElement("p");
+            language.textContent = "Language: " + m.original_language;
 
-        if(Number(m.vote_average) > 8.5){
-            div.append(recom, img, rating, language, year, name, playNow_btn);
-        }
-        else
-            div.append(img, rating, language, year, name, playNow_btn);
+            let year = document.createElement("p");
+            year.textContent = m.release_date;
 
-        parrent.append(div);
+            let name = document.createElement("p");
+            name.setAttribute("class", "moviName");
+            name.textContent = m.title;
+
+            let playNow_btn = document.createElement("a");
+            playNow_btn.href = youtubeLink;
+            playNow_btn.target = "_blank";
+            let linkTag = document.createElement("button");
+            linkTag.textContent = "Play Now";
+            playNow_btn.append(linkTag);
+
+            let recom = document.createElement("p");
+            recom.setAttribute("id", "recomTag");
+            recom.textContent = "Recomded - Must to watch";
+
+            if(Number(m.vote_average) > 8.5){
+                div.append(recom, img, rating, language, year, name, playNow_btn);
+            }
+            else
+                div.append(img, rating, language, year, name, playNow_btn);
+
+            parrent.append(div);
+
+        } 
     })
 }
 
@@ -209,45 +238,72 @@ let movies_div = document.getElementById("movies");
           });
       }
 
+    //   After search result 
       function showMovieDet(m){
-        let parrent = document.getElementById("moviesList");
-        parrent.innerHTML = null;
 
-        let div = document.createElement("div");
-        div.setAttribute("class", "moviBox")
+        // Video id API call
+        videoApiID(m);
+        async function videoApiID(m){
 
-        let img = document.createElement("img");
-        img.src = "https://image.tmdb.org/t/p/w500"+m.poster_path;
+            let video_id= await videoApi(m.id);
 
-        let rating = document.createElement("p");
-        rating.textContent = "imbd rating: " + m.vote_average;
+            movies_div.innerHTML = null;
+            movies_div.style.display = "none";
 
-        let language = document.createElement("p");
-        language.textContent = "Language: " + m.original_language;
+            let youtubeLink = `https://www.youtube.com/watch?v=${video_id}`;
 
-        let year = document.createElement("p");
-        year.textContent = m.release_date;
+            let parrent = document.getElementById("moviesList");
+            parrent.innerHTML = null;
 
-        let name = document.createElement("p");
-        name.setAttribute("class", "moviName");
-        name.textContent = m.title;
+            let div = document.createElement("div");
+            div.setAttribute("class", "moviBox")
 
-        let playNow_btn = document.createElement("button");
-        playNow_btn.textContent = "Play Now";
+            let div2 = document.createElement("div");
+            // div2.setAttribute("class", "moviBox");
 
-        let recom = document.createElement("p");
-        recom.setAttribute("id", "recomTag");
-        recom.textContent = "Recomded - Must to watch";
+            let discription = document.createElement("p");
+            discription.textContent = "Overview: " + m.overview;
 
-        if(Number(m.vote_average) > 8.5){
-            div.append(recom, img, rating, language, year, name, playNow_btn);
+            div2.append(discription);
+
+            let img = document.createElement("img");
+            img.src = "https://image.tmdb.org/t/p/w500"+m.poster_path;
+
+            let rating = document.createElement("p");
+            rating.textContent = "imbd rating: " + m.vote_average;
+
+            let language = document.createElement("p");
+            language.textContent = "Language: " + m.original_language;
+
+            let year = document.createElement("p");
+            year.textContent = m.release_date;
+
+            let name = document.createElement("p");
+            name.setAttribute("class", "moviName");
+            name.textContent = m.title;
+
+            let playNow_btn = document.createElement("a");
+            playNow_btn.href = youtubeLink;
+            playNow_btn.target = "_blank";
+            let linkTag = document.createElement("button");
+            linkTag.textContent = "Play Now";
+            playNow_btn.append(linkTag);
+
+            let recom = document.createElement("p");
+            recom.setAttribute("id", "recomTag");
+            recom.textContent = "Recomded - Must to watch";
+
+            if(Number(m.vote_average) > 8.5){
+                div.append(recom, img, rating, language, year, name, playNow_btn);
+            }
+            else
+                div.append(img, rating, language, year, name, playNow_btn);
+
+            parrent.append(div, div2);
         }
-        else
-            div.append(img, rating, language, year, name, playNow_btn);
-
-        parrent.append(div);
       }
-      movies
+      
+
       async function main(){
           let name = document.getElementById("searrch").value;
 
@@ -258,7 +314,7 @@ let movies_div = document.getElementById("movies");
           }
           let res = await searchMovies(name);
           let movie_data = res.results;
-
+          
           appendMovie(movie_data);
 
           console.log("res", movie_data);

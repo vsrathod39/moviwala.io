@@ -101,13 +101,15 @@ a{
 /* main body */
 #moviesList{
     display: grid;
-    grid-template-columns: repeat(3, 28%);
+    grid-template-columns: repeat(3, 28%); 
+    flex-direction: column;
     justify-content: space-around;
     gap: 22px;
     background-color: black;
     padding-bottom: 22px;
     padding: 0px 38px;
     margin-bottom: 20px;
+    justify-content: space-around;
 }
 #moviesList img{
     width: 100%;
