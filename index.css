@@ -3,7 +3,9 @@
     padding: 0;
     color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    
+}
+body{
+    background-color: black;
 }
 nav{
     width: 100%;
@@ -90,6 +92,7 @@ a{
     background-color: black;
     padding-bottom: 22px;
     padding: 0px 38px;
+    margin-bottom: 20px;
 }
 #moviesList img{
     width: 100%;
@@ -133,17 +136,20 @@ a{
 /* footer */
 footer{
     width: 100%;
-    padding: 20px 0;
+    /* margin-top: 20px; */
+    padding: 20px 0px;
     background-color: black;
 }
 #footBox{
-    display: flex;
-    gap: 22px;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 27% 12% 12% 12%;
+    gap: 8px;
+    justify-content: space-around;   
 }
 #cpright{
     margin: 20px auto;
     width: 55%;
+    text-align: center;
 }
 
 /* ------------------- */
@@ -158,12 +164,16 @@ footer{
         display: grid;
         grid-template-columns: repeat(1, 98%);
     }
-    
+    .dis{
+        display: none;
+    }
 }
 @media (max-width:900px) and (min-width:520px) {
     #moviesList{
         display: grid;
         grid-template-columns: repeat(2, 48%);
     }
-    
+    .dis2{
+        display: none;
+    }
 }
