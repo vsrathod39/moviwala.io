@@ -1,4 +1,4 @@
-// search for movies
+// search for a particular movies
 async function moviesSearch(){
     let title = document.getElementById("searrch").value;
     let res = await fetch(`https://api.themoviedb.org/3/search/movie?&api_key=1229e943aec051105219f4ea7a80c817${"&query="}${title}`);
@@ -22,7 +22,7 @@ async function moviesSearch(){
 }
 
 let moviesData;
-
+// to get top 20 popular movies
 async function moviesDataAPI(){
     let res = await fetch("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=1229e943aec051105219f4ea7a80c817");
     let apiData = await res.json();
@@ -58,7 +58,7 @@ function slid_show(images){
 
 }
 
-
+// Body popular movies list
 function showMoviesList(data){
     let parrent = document.getElementById("moviesList");
     parrent.innerHTML = "";
@@ -172,3 +172,106 @@ function  logout(){
     a2.textContent = "signup";
     log.append(a2);
 }
+// ------------- Debounce ----------------------
+
+let movies_div = document.getElementById("movies");
+      let timerId;
+
+      async function searchMovies(movie_name){
+          try{
+              let res = await fetch(`https://api.themoviedb.org/3/search/movie?&api_key=1229e943aec051105219f4ea7a80c817${"&query="}${movie_name}`);
+              let data = await res.json(); 
+              return data;
+          }
+          catch(e){
+            //   console.log("Error: ", e);
+          }
+      }
+
+      function appendMovie(movie){
+          if(movie === undefined){
+              return false;
+          }
+          movies_div.style.display = "inline";
+          movies_div.innerHTML = null;
+          let result = document.createElement("p");
+          result.textContent = "--- searched result ---";
+          movies_div.append(result);
+
+          movie.forEach(element => {
+              let p = document.createElement("p");
+              p.setAttribute("class", "searchedMovies");
+              p.innerText = "- " + element.title;
+              p.onclick = function(){
+                showMovieDet(element);
+              }
+              movies_div.append(p);
+          });
+      }
+
+      function showMovieDet(m){
+        let parrent = document.getElementById("moviesList");
+        parrent.innerHTML = null;
+
+        let div = document.createElement("div");
+        div.setAttribute("class", "moviBox")
+
+        let img = document.createElement("img");
+        img.src = "https://image.tmdb.org/t/p/w500"+m.poster_path;
+
+        let rating = document.createElement("p");
+        rating.textContent = "imbd rating: " + m.vote_average;
+
+        let language = document.createElement("p");
+        language.textContent = "Language: " + m.original_language;
+
+        let year = document.createElement("p");
+        year.textContent = m.release_date;
+
+        let name = document.createElement("p");
+        name.setAttribute("class", "moviName");
+        name.textContent = m.title;
+
+        let playNow_btn = document.createElement("button");
+        playNow_btn.textContent = "Play Now";
+
+        let recom = document.createElement("p");
+        recom.setAttribute("id", "recomTag");
+        recom.textContent = "Recomded - Must to watch";
+
+        if(Number(m.vote_average) > 8.5){
+            div.append(recom, img, rating, language, year, name, playNow_btn);
+        }
+        else
+            div.append(img, rating, language, year, name, playNow_btn);
+
+        parrent.append(div);
+      }
+      movies
+      async function main(){
+          let name = document.getElementById("searrch").value;
+
+          if(name.length < 3){
+            movies_div.innerHTML = null;
+            movies_div.style.display = "none";
+              return false;
+          }
+          let res = await searchMovies(name);
+          let movie_data = res.results;
+
+          appendMovie(movie_data);
+
+          console.log("res", movie_data);
+      }
+
+    //   clear previous api call if new request came
+      function debounce(func, delay){
+
+        if(timerId){
+            clearTimeout(timerId);
+        }
+
+        timerId = setTimeout(function(){
+            func();
+        }, delay)
+      }

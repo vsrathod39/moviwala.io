@@ -14,8 +14,9 @@
         <div id="navMenu">
             <!-- <div class="navDiv" id="user_name"></div> -->
             <div class="navDiv" id="searchBox">
-                <input type="text" id="searrch" placeholder="Enter title">
-                <button onclick="moviesSearch()">Search</button>
+                <input oninput="debounce(main, 2000)" type="text" id="searrch" placeholder="Enter title">
+                <!-- <button onclick="moviesSearch()">Search</button> -->
+                <div id="movies">Vikas</div>
             </div>
             <!-- <div class="navDiv"></div> -->
             <div class="navDiv dis dis2"><a href="index.html">Home</a></div>
