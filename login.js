@@ -1,10 +1,10 @@
 // login status - active user
-if(localStorage.getItem("login_status") != null && JSON.parse(localStorage.getItem("login_status")).length > 0){
+function showUserStatus(name){
     let active = document.getElementById("user_name");
     active.innerHTML = null;
 
     let p = document.createElement("p");
-    p.textContent ="Welcome - " + JSON.parse(localStorage.getItem("login_status"))[0];
+    p.textContent = name;
     active.append(p);
 
     let log = document.getElementById("logout");
@@ -22,10 +22,6 @@ if(localStorage.getItem("login_status") != null && JSON.parse(localStorage.getIt
 
 // LogOut
 function  logout(){
-    console.log("hello");
-    let act_user = JSON.parse(localStorage.getItem("login_status"));
-    act_user.pop();
-    localStorage.setItem("login_status", JSON.stringify(act_user));
 
     let active = document.getElementById("user_name");
     active.innerHTML = null;
@@ -45,30 +41,69 @@ function  logout(){
 }
 
 // login function
-function login(){
+function login(e){
+e.preventDefault();
+
 let login_info = document.getElementById("login_info");
-let email = login_info.email.value;
+
+let username = login_info.username.value;
 let password = login_info.password.value;
 
-if(localStorage.getItem("user") === null){
-    alert("user dosen't exist, please signup")
-    window.location.href = './signup.html';
+let obj = {
+    username,
+    password
+  }
+  let objSend = JSON.stringify(obj);
+
+    fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+
+            method: "POST",
+
+            body: objSend,
+
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
+
+        .then((res) => {
+            return res.json();
+        })
+
+        .then((res) => {
+            if(res.error === true){
+                alert(res.message);
+            }else{
+                fetchUserData(obj.username, res.token);
+            }
+        })
+        .catch((err) => {
+            alert(res.message)
+        })
 }
 
-let user_detl = JSON.parse(localStorage.getItem("user"));
-let flag = true;
+// fetch login user data
+function fetchUserData(username, token){
+    fetch(`https://masai-api-mocker.herokuapp.com/user/${username}`, {
 
-for(let i = 0; i < user_detl.length; i++){
-    if(user_detl[i].email == email && user_detl[i].password == password){
-        flag = false;
-        alert("login success");
-        
-        localStorage.setItem("login_status", JSON.stringify([user_detl[i].name]));
-        window.location.href = './index.html';
-    }
-}
-if(flag)
-    alert("invalid Credentials");
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
 
-return false;
+        .then((res) => {
+            return res.json();
+        })
+
+        .then((res) => {
+            console.log("Res_data: ", res, token);
+            if(token !== undefined){
+                showUserStatus(res.name);
+            }
+        })
+        .catch((err) => {
+            // console.log("error: ", err);
+            // alert(res.message)
+        })
 }
